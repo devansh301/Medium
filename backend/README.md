@@ -1,1 +1,8 @@
-# Medium-Blog
+```
+npm install
+npm run dev
+```
+
+```
+npm run deploy
+```
