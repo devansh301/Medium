@@ -77,7 +77,7 @@ blogRouter.put("/", async (c) => {
     const blog = await prisma.post.update({
       where: {
         id: body.id,
-        authorId: authorId,
+        authorId,
       },
       data: {
         title: body.title,
@@ -89,6 +89,7 @@ blogRouter.put("/", async (c) => {
     });
   } catch (e) {
     c.status(411);
+    console.log(e);
     return c.json({ error: "Error" });
   }
 });
@@ -135,12 +136,35 @@ blogRouter.get("/:id", async (c) => {
         id: true,
         author: {
           select: {
-            name: true
+            name: true,
           }
-        }
+        },
+        authorId: true
       }
     });
     return c.json({ blog });
+  } catch (e) {
+    c.status(411);
+    return c.json({ error: "Error" });
+  }
+});
+
+blogRouter.delete("/:id", async (c) => {
+  const id = c.req.param('id');
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+  }).$extends(withAccelerate());
+  try {
+    const authorId = c.get("userId");
+    await prisma.post.delete({
+      where: {
+        id,
+        authorId
+      }
+    });
+    return c.json({
+      message: "Post is deleted"
+    })
   } catch (e) {
     c.status(411);
     return c.json({ error: "Error" });

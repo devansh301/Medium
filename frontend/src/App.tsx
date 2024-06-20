@@ -4,6 +4,7 @@ import Signup from './pages/Signup'
 import Blog from './pages/Blog'
 import Blogs from './pages/Blogs'
 import Publish from './pages/Publish'
+import Update from './pages/Update'
 
 function App() {
 
@@ -11,11 +12,12 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/signup" element={<Signup />}></Route>
-          <Route path="/signin" element={<Signin />}></Route>
-          <Route path="/blog/:id" element={<Blog />}></Route>
-          <Route path="blogs" element={<Blogs/>}></Route>
-          <Route path="/publish" element={<Publish/>} />
+          <Route path="/signup" element={<Signup />}/>
+          <Route path="/signin" element={<Signin />}/>
+          <Route path="/blog/:id" element={<Blog />}/>
+          <Route path="blogs" element={<Blogs/>}/>
+          <Route path="/publish" element={<Publish/>}/>
+          <Route path="/update" element={<Update/>}/>
         </Routes>
       </BrowserRouter>
     </>

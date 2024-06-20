@@ -9,6 +9,7 @@ export interface Blog {
   author: {
     name: string;
   };
+  authorId: string;
 }
 
 export const useBlog = ({id} : {id: string}) => {
@@ -23,6 +24,8 @@ export const useBlog = ({id} : {id: string}) => {
     }).then((response) => {
       setBlog(response.data.blog);
       setLoading(false);
+    }).catch(e => {
+      alert(e.message);
     })
   }, [id]);
   return {
@@ -34,7 +37,7 @@ export const useBlog = ({id} : {id: string}) => {
 export const useBlogs = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [blogs, setBlogs] = useState<Blog[]>([]);
-
+  
   useEffect(() => {
     axios
       .get(`${BACKEND_URL}/api/v1/blog/bulk`, {
@@ -45,6 +48,8 @@ export const useBlogs = () => {
       .then((response) => {
         setBlogs(response.data);
         setLoading(false);
+      }).catch(e => {
+        alert(e.message);
       });
   }, []);
 

@@ -1,8 +1,12 @@
+import axios from "axios";
+import { BACKEND_URL } from "../config";
 import { Blog } from "../hooks";
 import Appbar from "./Appbar"
 import { Avatar } from "./BlogCard";
+import { useNavigate } from "react-router-dom";
 
 export default function FullBlog({ blog }: { blog: Blog }) {
+    const navigate = useNavigate();
     return (<div>
         <Appbar />
         <div className="flex justify-center">
@@ -35,6 +39,31 @@ export default function FullBlog({ blog }: { blog: Blog }) {
                             </div>
                         </div>
                     </div>
+                    {localStorage.getItem('userId')==blog.authorId && 
+                    <div className="py-10">
+                            <button onClick={() => {
+                                navigate('/update', { state: { blogTitle: blog.title, blogContent: blog.content, blogId: blog.id }});
+                            }}
+                             type="button" className="mr-4 text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-md px-5 py-2.5 text-center me-2 mb-2">
+                                Update
+                            </button>
+                        <button onClick={async () => {
+                            try {
+                                await axios.delete(`${BACKEND_URL}/api/v1/blog/${blog.id}`, {
+                                headers: {
+                                    Authorization: localStorage.getItem("token"),
+                                }
+                            });
+                            navigate("/blogs");
+                            }
+                            catch (e) {
+                                alert("You are not author of this blog");
+                            }
+                        }} type="button" className="mr-4 text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-md px-5 py-2.5 text-center me-2 mb-2">
+                            Delete
+                        </button>
+                    </div>
+                    }
                 </div>
             </div>
         </div>

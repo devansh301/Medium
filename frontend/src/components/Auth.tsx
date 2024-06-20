@@ -15,7 +15,9 @@ export default function Auth({ type }: { type: "signup" | "signin" }) {
         try {
             const response = await axios.post(`${BACKEND_URL}/api/v1/user/${ ( type === "signup") ? "signup" : "signin"}`, postInputs);
             const jwt = response.data.jwt;
+            const userId = response.data.userID;
             localStorage.setItem("token",jwt);
+            localStorage.setItem("userId",userId);
             navigate("/blogs");
         } catch (e) {
             alert('Error while signin');
@@ -58,7 +60,7 @@ export default function Auth({ type }: { type: "signup" | "signin" }) {
                         }} />
                         <div className="pt-4">
                             <button onClick={sendRequest} type="button" className=" text-white w-full bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">
-                                { (type === "signin") ? "Signin" : "Signup"}
+                                { (type === "signin") ? "Signin" : "Signup" }
                             </button>
                         </div>
                     </div>
